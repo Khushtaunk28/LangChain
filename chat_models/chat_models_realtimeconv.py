@@ -2,7 +2,6 @@ from dotenv import load_dotenv
 from langchain_google_genai import GoogleGenerativeAI
 from langchain_core.messages import HumanMessage,SystemMessage,AIMessage
 load_dotenv()
-
 model=GoogleGenerativeAI(model="gemini-2.5-flash")
 
 
