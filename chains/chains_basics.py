@@ -4,7 +4,6 @@ from langchain.prompts import ChatPromptTemplate
 from langchain.schema.output_parser import StrOutputParser
 
 load_dotenv()
-
 model=GoogleGenerativeAI(model="gemini-2.5-flash")
 # Define prompt templates (no need for separate Runnable chains)
 prompt_template = ChatPromptTemplate.from_messages(
