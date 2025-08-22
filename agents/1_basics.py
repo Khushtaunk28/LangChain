@@ -1,0 +1,31 @@
+from langchain_google_genai import GoogleGenerativeAI
+from dotenv import load_dotenv
+from langchain import hub
+load_dotenv()
+from langchain_core.prompts import PromptTemplate
+from langchain.schema.output_parser import StrOutputParser
+from langchain.agents import create_react_agent,AgentExecutor
+import datetime
+from langchain.agents import tool
+
+llm=GoogleGenerativeAI(model="gemini-2.5-flash")
+query = "What is the current time in London? (You are in India). Just show the current time and not the date"
+
+@tool
+def get_system_time(format: str = "%Y-%m-%d %H:%M:%S"):
+    """ Returns the current date and time in the specified format """
+
+    current_time = datetime.datetime.now()
+    formatted_time = current_time.strftime(format)
+    return formatted_time
+    
+
+prompt_template = hub.pull("hwchase17/react")
+
+tools = [get_system_time]
+
+agent = create_react_agent(llm, tools, prompt_template)
+
+agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
+
+agent_executor.invoke({"input": query})
